@@ -1,7 +1,6 @@
 ---
 
 - name: set up main config file
-  tags: config
   template:
     src: production.yaml.tpl
     dest: /var/www/peertube/config/production.yaml
@@ -10,7 +9,6 @@
     mode: 0600
 
 - name: set up nginx config file (behind reverse proxy)
-  tags: config
   template:
     src: nginx-behind-reverse.conf
     dest:  /etc/nginx/sites-available/peertube
@@ -19,7 +17,6 @@
     mode: 0644
 
 - name: create symbolic link to sites-enable for nginx config file
-  tags: config
   file:
     state: link
     src: /etc/nginx/sites-available/peertube
@@ -27,7 +24,6 @@
   notify: reload nginx
     
 - name: set up systemd service unit for peertube
-  tags: config
   copy:
     remote_src: yes
     src: /var/www/peertube/peertube-latest/support/systemd/peertube.service
@@ -38,7 +34,6 @@
   notify: reload systemd
 
 - name: set up service unit peertube on startup
-  tags: config
   systemd:
     enabled: yes
     name: peertube
@@ -53,6 +48,5 @@
         $ sudo journalctl -feu peertube
 
         Once the testing period is over and all is well, consider lowering log level to warning.
-  tags: config, info
+  tags: info
   
-...
