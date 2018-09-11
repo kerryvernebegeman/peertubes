@@ -5,6 +5,7 @@
 - name: download shell code for nodeJS 8
   get_url: 
     url: "{{ nodejs_url }}"
+    dest: "{{ nodejs_url_dest }}"
   register: njsfile
 
 - name: execute shell code for nodeJS 8
@@ -13,6 +14,6 @@
 - name: install nodeJS
   apt: 
     name: nodejs
-    state: installed
+    state: present
 
 ...
