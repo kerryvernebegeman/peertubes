@@ -50,5 +50,12 @@ $ ansible-playbook peertube.yml
 See in file [defaults](defaults/main.yml)
 
 
+### Upgrade your peertube installation
+
+```bash
+
+$ ansible-playbook peertube.yml -t upgrade
+
+```
 
 
