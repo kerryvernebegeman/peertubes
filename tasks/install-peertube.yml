@@ -1,0 +1,177 @@
+---
+# tasks file for peertube
+
+- name: install packages
+  apt:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - curl
+    - sudo
+    - unzip
+    - vim
+
+- name: create dir if not exist
+  file:
+    path: /var/www
+    state: directory
+
+- name: create app user {{ app_user }}
+  user: 
+    name: "{{ app_user }}"
+    comment: "For app {{ app_user }}"
+    groups: sudo
+    password: "{{lookup('password', '~/%s.credentials.txt chars=ascii_letters,digits' % '{{ app_user }}' )}}"
+    update_password: on_create
+    home: /var/www/peertube
+    createhome: yes
+    shell: /bin/bash
+
+- name: install yarn gpg key for repository
+  apt_key:
+    url: "https://dl.yarnpkg.com/debian/pubkey.gpg"
+    state: present
+
+- name: set up yarn repository
+  lineinfile:
+    line: "deb https://dl.yarnpkg.com/debian/ stable main" 
+    regexp: '^deb https://dl.yarnpkg.com'
+    path: /etc/apt/sources.list.d/yarn.list
+    mode: 0644
+    owner: root
+    group: root
+    create: yes
+
+- name: install yarn package
+  apt:
+    update_cache: yes
+    name: yarn
+    state: installed
+
+- name: install remaining packages
+  apt:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - nginx
+    - ffmpeg
+    - postgresql
+    - postgresql-contrib
+    - openssl
+    - g++
+    - make
+    - redis-server
+    - git
+    - python-psycopg2
+ 
+- name: request ffmpeg and g++ versions
+  shell: "ffmpeg -version && g++ -v 2>&1"
+  register: pkg_version
+  changed_when: False
+
+- name: check (DO CHECK) versions installed are recent enough
+  debug:
+    msg: "ffmpeg should be >= 3.x \n g++ should be >- 5.x"
+
+- name: display ffmpeg and g++ versions
+  debug: var=pkg_version.stdout_lines
+
+- name: set up postgres DB
+  tags: pg
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: peertube_prod
+    login_user: postgres
+
+- name: set up postgres User
+  tags: install, pg
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: peertube
+    password: "{{ lookup('password', '~/%s.credentials.txt chars=ascii_letters,digits' % 'pgsql_user' )}}"
+    db: peertube_prod
+    login_user: postgres
+
+- name: create required directories
+  tags: install
+  file:
+    state: directory
+    path: /var/www/peertube/{{ item }}
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+  with_items:
+    - config
+    - storage
+    - versions
+
+- name: determine latest version
+  tags: install, unzip
+  shell: curl -s https://api.github.com/repos/chocobozzz/peertube/releases/latest | grep tag_name | cut -d '"' -f 4
+  register: last_version
+  when: peer_version is not defined
+  changed_when: False
+
+- name: set version variable
+  tags: install, unzip
+  set_fact:
+    peer_version: "{{ last_version.stdout }}"
+  when: peer_version is not defined
+
+## As per install doc, we have to use some gymnastic with zip file
+- name: download and extract archive
+  tags: install, unzip
+  unarchive:
+    creates: /var/www/peertube/versions/peertube-{{ peer_version }}
+    dest: /var/www/peertube/versions/
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    remote_src: yes
+    src: https://github.com/Chocobozzz/PeerTube/releases/download/{{ peer_version }}/peertube-{{ peer_version }}.zip
+    
+## Not working, as the zip file adds some required 'dist' folders that are missing in tag
+#- name: git clone latest version of peertube
+#  tags: install#
+#  become: true
+#  become_user: "{{ app_user }}"
+#  git:
+#    clone: yes
+#    dest: /var/www/peertube/versions/peertube-{{ peer_version }}
+#    repo: https://github.com/Chocobozzz/PeerTube.git
+#    version: "{{ peer_version }}"
+
+- name: create link to latest
+  tags: install
+  file:
+    state: link
+    src: /var/www/peertube/versions/peertube-{{ peer_version }}
+    dest: /var/www/peertube/peertube-latest
+
+- name: ensure all belongs to {{ app_user }}
+  tags: install
+  file:
+    state: directory 
+    recurse: yes
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+    follow: yes
+    path: /var/www/peertube/peertube-latest
+
+- name: install peertube
+  tags: install
+  become: true
+  become_user: "{{ app_user }}"
+  shell: cd /var/www/peertube/peertube-latest && yarn install --production --pure-lockfile
+  changed_when: False
+
+- name: Installation is finished, configuration is left to the user
+  debug:
+    msg: |2
+        Installation complete!
+
+        Please not that 'certbot' was NOT installed (not required if you are using a reverse proxy for your web apps).
+
+        Next is to set up a minimum working configuration..."
+  tags: install, info
+...

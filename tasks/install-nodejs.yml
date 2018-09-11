@@ -1,0 +1,15 @@
+---
+# tasks file for nodejs_debian
+
+- name: download nodeJS 8
+  become: true
+  #become_user: "{{ app_user }}"
+  shell: curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+  #changed_when: False
+
+- name: install nodeJS
+  apt: 
+    name: nodejs
+    state: installed
+
+...

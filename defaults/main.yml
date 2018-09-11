@@ -1,0 +1,5 @@
+---
+# defaults file for peertube
+app_domain:
+app_user: peertube
+peer_version: v1.0.0-beta.9

@@ -1,0 +1,19 @@
+---
+
+- name: Ask domain if not defined
+  vars_prompt:
+    name: app_domain
+    prompt: Full qualified domain name for you Peertube instance? (cannot be changed once Peertube is started, so choose carefully).
+    private: no
+  when: app_domain is none
+- import_tasks: install-nodejs.yml
+  tags: install,nodejs
+- import_tasks: install-peertube.yml
+  tags: install,peertube
+- import_tasks: config.yml
+  tags: config
+- import_tasks: upgrade.yml
+  tags: 
+    - never
+    - upgrade
+
