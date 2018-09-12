@@ -56,13 +56,11 @@ config_start:
     comment: |
       When the limit is reached, registrations are disabled.
       -1 == unlimited
-
     filters:
       cidr: 
         comment: |
           You can specify CIDR ranges to whitelist 
           (empty = no filtering) or blacklist
-
         whitelist: []
         blacklist: []
   
