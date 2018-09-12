@@ -7,6 +7,28 @@ peer_version_dest: /tmp
 peer_src_url: "https://github.com/Chocobozzz/PeerTube/releases/download/{{ peer_version }}/peertube-{{ peer_version }}.zip"
 
 app_domain:
+app_https: true
+
+
+config:
+  webserver:
+    https: '{% if app_https %}true{% else %}false{% endif %}'
+    port: '{% if app_https %}443{% else %}80{% endif %}'
+    hostname: '{{ app_domain }}'
+  smtp:
+    hostname: null
+    port: 465 # If you use StartTLS: 587
+    username: null
+    password: null
+    tls: true # If you use StartTLS: false
+    disable_starttls: false
+    ca_file: null # Used for self signed certificates
+    from_address: 'admin@example.com'
+
+
+
+
+
 app_user: peertube
 app_user_password: "{{lookup('password', 'zz.%s.credentials.txt chars=ascii_letters,digits' % '{{ app_user }}' )}}"
 app_user_home: /var/www/peertube
@@ -30,7 +52,9 @@ nginx_config_dest_enable: "/etc/nginx/sites-enable/peertube"
 peertube_service_src: "{{ directory_latest }}/support/systemd/peertube.service"
 peertube_service_name: "peertube"
 
-app_pg_db: peertube_prod
+app_pg_db_prefix: peertube
+app_pg_db_suffix: _prod
+app_pg_db: "{{ app_pg_db_prefix }}{{ app_pg_db_suffix }}"
 app_pg_user: peertube
 app_pg_user_password: "{{ lookup('password', '~/%s.credentials.txt chars=ascii_letters,digits' % 'pgsql_user' )}}"
 

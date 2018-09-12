@@ -4,9 +4,9 @@ listen:
 
 # Correspond to your reverse proxy "listen" configuration
 webserver:
-  https: true
-  hostname: '{{ app_domain }}'
-  port: 443
+  https: '{{ config.webserver.https }}'
+  hostname: '{{ config.webserver.hostname }}'
+  port: '{{ config.webserver.port }}'
 
 # Proxies to trust to get real client IP
 # If you run PeerTube just behind a local proxy (nginx), keep 'loopback'
@@ -18,10 +18,9 @@ trust_proxy:
 database:
   hostname: 'localhost'
   port: 5432
-  suffix: '_prod'
-  username: 'peertube'
-  password: "{{ lookup('password', '~/%s.credentials.txt chars=ascii_letters,digits' % 'pgsql_user' )}}"
-
+  suffix: '{{ app_pg_db_suffix }}'
+  username: '{{ app_pg_user }}'
+  password: '{{ app_pg_user_password }}'
 
 # Redis server for short time storage
 redis:
@@ -30,6 +29,7 @@ redis:
   auth: null
   db: 0
 
+"{{ config | to_yaml }}"
 # SMTP server to send emails
 smtp:
   hostname: null
