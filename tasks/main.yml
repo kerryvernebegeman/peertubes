@@ -21,12 +21,14 @@
 - import_tasks: install-peertube.yml
   tags: install_peertube
 
-- name: Pause
-  pause:
-    prompt: Pause, Everything Ok ?
+  #- name: Pause
+  #  pause:
+  #    prompt: Pause, Everything Ok ?
 
 - import_tasks: config.yml
   tags: config
+
+
 - import_tasks: upgrade.yml
   tags: 
     - never
