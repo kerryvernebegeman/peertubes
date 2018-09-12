@@ -7,8 +7,8 @@ peer_version_dest: /tmp
 peer_src_url: "https://github.com/Chocobozzz/PeerTube/releases/download/{{ peer_version }}/peertube-{{ peer_version }}.zip"
 
 accounts:
-  twitter: @twitteraccount
-  adminmail: admin@example.com
+  twitter: "@twitteraccount"
+  adminmail: "admin@example.com"
 app_domain:
 app_https: true
 
