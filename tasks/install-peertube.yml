@@ -113,15 +113,20 @@
 - name: determine latest version
   tags: unzip
   shell: curl -s "{{ peer_version_url }}" | jq .tag_name 
+    warn: False
   register: last_version
   when: peer_version is not defined or peer_version is none
-  warn: False
 
 - name: set version variable
   tags: unzip
   set_fact:
     peer_version: '{{ last_version.stdout }}'
   when: peer_version is not defined or peer_version is none
+
+- name: Debug version variable
+  tags: unzip
+  debug:
+    var: peer_version
 
 ## As per install doc, we have to use some gymnastic with zip file
 - name: download and extract archive
