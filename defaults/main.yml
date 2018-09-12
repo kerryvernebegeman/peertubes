@@ -17,6 +17,11 @@ special_directories:
   - storage
   - versions
     
+directory_version: "{{ app_user_home }}/versions/peertube-{{ peer_version }}"
+directory_latest: "{{ app_user_home }}/peertube-latest"
+
+yarn_options: "--production --pure-lockfile"
+
 app_pg_db: peertube_prod
 app_pg_user: peertube
 app_pg_user_password: "{{ lookup('password', '~/%s.credentials.txt chars=ascii_letters,digits' % 'pgsql_user' )}}"

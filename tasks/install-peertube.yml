@@ -143,8 +143,8 @@
 - name: create link to latest
   file:
     state: link
-    src: "{{ app_user_home }}/versions/peertube-{{ peer_version }}"
-    dest: "{{ app_user_home }}/peertube-latest"
+    src: "{{ directory_version }}"
+    dest: "{{ directory_latest }}"
 
 - name: ensure all belongs to {{ app_user }}
   file:
@@ -153,12 +153,12 @@
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
     follow: yes
-    path: "{{ app_user_home }}/peertube-latest"
+    path: "{{ directory_latest }}"
 
 - name: install peertube
   become: true
   become_user: "{{ app_user }}"
-  shell: cd "{{ app_user_home }}/peertube-latest" && yarn install --production --pure-lockfile
+  shell: cd "{{ directory_latest }}" && yarn install "{{ yarn_options }}"
 
 - name: Installation is finished, configuration is left to the user
   pause:
