@@ -141,12 +141,14 @@
     src: "{{ peer_src_url }}"
     
 - name: create link to latest
+  tags: unzip
   file:
     state: link
     src: "{{ directory_version }}"
     dest: "{{ directory_latest }}"
 
 - name: ensure all belongs to {{ app_user }}
+  tags: install
   file:
     state: directory 
     recurse: yes
@@ -156,11 +158,13 @@
     path: "{{ directory_latest }}"
 
 - name: install peertube
+  tags: install
   become: true
   become_user: "{{ app_user }}"
   shell: cd "{{ directory_latest }}" && yarn install "{{ yarn_options }}"
 
 - name: Installation is finished, configuration is left to the user
+  tags: install
   pause:
     prompt: |2
         Installation complete!
