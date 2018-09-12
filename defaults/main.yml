@@ -19,6 +19,10 @@ app_user_shell: /bin/bash
 
 config:
   smtp:
+    comment: |
+      port 465  If you use StartTLS 587
+      tls true  If you use StartTLS false
+      ca_file null  Used for self signed certificates
     hostname: null
     port: 465 # If you use StartTLS: 587
     username: null
@@ -28,10 +32,9 @@ config:
     ca_file: null # Used for self signed certificates
     from_address: 'admin@example.com'
   log:
-    level: 'info' # debug/info/warning/error
+    level: 'info' 
+    comment: debug/info/warning/error
 
-  
-  
 config_start:
 
   signup:
@@ -40,9 +43,13 @@ config_start:
     comment: |
       When the limit is reached, registrations are disabled.
       -1 == unlimited
+
     filters:
       cidr: 
-        comment: You can specify CIDR ranges to whitelist (empty = no filtering) or blacklist
+        comment: |
+          You can specify CIDR ranges to whitelist 
+          (empty = no filtering) or blacklist
+
         whitelist: []
         blacklist: []
   
@@ -51,6 +58,7 @@ config_start:
       Default value of maximum video BYTES the user can upload
       (does not take into account transcoded files).
       -1 == unlimited
+
     video_quota: -1
   
   instance:
@@ -64,15 +72,19 @@ config_start:
     comment: |
       By default, "do_not_list" or "blur" or "display" NSFW videos
       Could be overridden per user with a setting
+
     default_nsfw_policy: 'do_not_list'
     customizations:
+      comment: |
+        javascript - Directly your JavaScript code (without <script> tags).  Will be eval at runtime
+        css -  Directly your CSS code (without <style> tags). Will be injected at runtime
+
       javascript: '' 
-      comment: Directly your JavaScript code (without <script> tags). Will be eval at runtime
       css: '' 
-      comment: Directly your CSS code (without <style> tags). Will be injected at runtime
     robots: |
       User-agent: *
       Disallow: ''
+
     robots_comment: |
       Robot.txt rules. 
       To disallow robots to crawl your instance 
@@ -92,11 +104,11 @@ config_default:
     hostname: '{{ app_domain }}'
   
   trust_proxy:
-    comment: |
+    - 'loopback'
+  trust_proxy_comment: |
       Proxies to trust to get real client IP
       If you run PeerTube just behind a local proxy (nginx), keep 'loopback'
       If you run PeerTube behind a remote proxy, add the proxy IP address (or subnet)
-    - 'loopback'
   
   database:
     comment: Your database name will be "peertube"+database.suffix
@@ -137,6 +149,7 @@ config_dynamic:
         If true, a video player will be embedded in the Twitter feed on PeerTube video share
         If false, we use an image link card that will redirect on your PeerTube instance
         Test on https://cards-dev.twitter.com/validator to see if you are whitelisted
+        
       whitelisted: false
 
   cache:
@@ -149,6 +162,7 @@ config_dynamic:
       If enabled, the video will be transcoded to mp4 (x264) with "faststart" flag
       In addition, if some resolutions are enabled the mp4 video file will be transcoded to these new resolutions.
       Please, do not disable transcoding since many uploaded videos will not work
+
     enabled: true
     threads: 1
     resolutions: 
