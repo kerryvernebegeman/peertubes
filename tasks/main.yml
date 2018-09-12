@@ -16,9 +16,15 @@
   when: app_domain is none
 
 - import_tasks: install-nodejs.yml
-  tags: install,nodejs
+  tags: install_nodejs
+
 - import_tasks: install-peertube.yml
-  tags: install,peertube
+  tags: install_peertube
+
+- name: Pause
+  pause:
+    prompt: Pause, Everything Ok ?
+
 - import_tasks: config.yml
   tags: config
 - import_tasks: upgrade.yml

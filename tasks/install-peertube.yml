@@ -4,16 +4,17 @@
 - name: install packages
   apt:
     name: "{{ item }}"
-    state: installed
+    state: present
   with_items:
     - curl
     - sudo
     - unzip
     - vim
 
-- name: create dir if not exist
-  file:
-    path: /var/www
+- name: create dir for app user {{ app_user }}
+  file: 
+    path: "{{ app_user_home | dirname }}"
+    recurse: yes
     state: directory
 
 - name: create app user {{ app_user }}
@@ -23,20 +24,19 @@
     groups: sudo
     password: "{{lookup('password', '~/%s.credentials.txt chars=ascii_letters,digits' % '{{ app_user }}' )}}"
     update_password: on_create
-    home: /var/www/peertube
+    home: "{{ app_user_home }}"
     createhome: yes
-    shell: /bin/bash
+    shell: "{{ app_user_shell }}"
 
 - name: install yarn gpg key for repository
   apt_key:
-    url: "https://dl.yarnpkg.com/debian/pubkey.gpg"
+    url: "{{ yarn_gpg_url }}"
     state: present
 
 - name: set up yarn repository
   lineinfile:
-    line: "deb https://dl.yarnpkg.com/debian/ stable main" 
-    regexp: '^deb https://dl.yarnpkg.com'
-    path: /etc/apt/sources.list.d/yarn.list
+    line: "{{ yarn_repo_line }}"
+    path: "{{ yarn_repo_file }}"
     mode: 0644
     owner: root
     group: root
@@ -46,12 +46,12 @@
   apt:
     update_cache: yes
     name: yarn
-    state: installed
+    state: present
 
 - name: install remaining packages
   apt:
     name: "{{ item }}"
-    state: installed
+    state: present
   with_items:
     - nginx
     - ffmpeg
@@ -64,17 +64,50 @@
     - git
     - python-psycopg2
  
-- name: request ffmpeg and g++ versions
-  shell: "ffmpeg -version && g++ -v 2>&1"
-  register: pkg_version
-  changed_when: False
+- name: get the package facts
+  package_facts:
+  register: mypackages
+  tags: mypack
 
-- name: check (DO CHECK) versions installed are recent enough
-  debug:
-    msg: "ffmpeg should be >= 3.x \n g++ should be >- 5.x"
+- name: Debug package versions
+  debug: 
+    msg: "{{ item.version | regex_replace('.*:([0-9\\.]+).*','\\1') }}"
+  with_items:
+    - "{{ mypackages.ansible_facts.packages['g++'][0].version }}"
+    - "{{ mypackages.ansible_facts.packages['ffmpeg'][0].version }}"
+  tags: mypack
 
-- name: display ffmpeg and g++ versions
-  debug: var=pkg_version.stdout_lines
+- name: Is version ok ?
+  fail: 
+    msg: "The version of {{ item.name }} is {{ item.version }} which is before {{ item.limit }}"
+  when: item.version | int < item.limit | int
+  with_items:
+    - name: g++
+      version: "{{ mypackages.ansible_facts.packages['g++'][0].version | regex_replace('.*:([0-9])([0-9\\.]+).*','\\1') }}"
+      limit: 5
+    - name: ffmpeg
+      version: "{{ mypackages.ansible_facts.packages['ffmpeg'][0].version | regex_replace('.*:([0-9])([0-9\\.]+).*','\\1') }}"
+      limit: 3
+  tags: mypack
+
+      #- name: display my packages
+      #  debug: var=mypackages
+
+      #- name: request ffmpeg and g++ versions
+      #  shell: "ffmpeg -version && g++ -v 2>&1"
+      #  register: pkg_version
+      #  changed_when: False
+      #
+      #- name: check (DO CHECK) versions installed are recent enough
+      #  debug:
+      #    msg: "ffmpeg should be >= 3.x \n g++ should be >- 5.x"
+      #
+      #- name: display ffmpeg and g++ versions
+      #  debug: var=pkg_version.stdout_lines
+
+- name: Pause
+  pause:
+    prompt: Pause, Everything Ok ?
 
 - name: set up postgres DB
   tags: pg

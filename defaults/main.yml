@@ -1,7 +1,15 @@
 ---
 # defaults file for peertube
+peer_version: v1.0.0-beta.9
 app_domain:
 app_user: peertube
-peer_version: v1.0.0-beta.9
+app_user_home: /var/www/peertube
+app_user_shell: /bin/bash
+
+yarn_gpg_url: "https://dl.yarnpkg.com/debian/pubkey.gpg"
+yarn_repo_line: "deb https://dl.yarnpkg.com/debian/ stable main" 
+yarn_repo_file: "/etc/apt/sources.list.d/yarn.list"
+
+
 nodejs_url: https://deb.nodesource.com/setup_8.x 
 nodejs_url_dest: /tmp
