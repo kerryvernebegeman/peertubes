@@ -109,19 +109,6 @@
     login_user: postgres
   tags: pg
 
-  #- name: get PeerTube last version Json
-  #  get_url:
-  #    url: "{{ peer_version_url }}"
-  #    dest: "{{ peer_version_dest }}"
-  #  register: peer_version_file
-  #
-  #- name: get 
-  #  #- name: determine latest version
-  #  #  tags: unzip
-  #  #  shell: curl -s https://api.github.com/repos/chocobozzz/peertube/releases/latest | grep tag_name | cut -d '"' -f 4
-  #  #  register: last_version
-  #  #  when: peer_version is not defined
-  #  #  changed_when: False
 
 - name: determine latest version
   tags: unzip
@@ -149,8 +136,8 @@
 - name: create link to latest
   file:
     state: link
-    src: "{{ app_user_home }}/versions/peertube-{{ peer_version }}"/var/www/peertube/versions/peertube-{{ peer_version }}
-    dest: /var/www/peertube/peertube-latest
+    src: "{{ app_user_home }}/versions/peertube-{{ peer_version }}"
+    dest: "{{ app_user_home }}/peertube-latest"
 
 - name: ensure all belongs to {{ app_user }}
   file:
@@ -159,17 +146,16 @@
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
     follow: yes
-    path: /var/www/peertube/peertube-latest
+    path: "{{ app_user_home }}/peertube-latest"
 
 - name: install peertube
   become: true
   become_user: "{{ app_user }}"
-  shell: cd /var/www/peertube/peertube-latest && yarn install --production --pure-lockfile
-  changed_when: False
+  shell: cd "{{ app_user_home }}/peertube-latest" && yarn install --production --pure-lockfile
 
 - name: Installation is finished, configuration is left to the user
-  debug:
-    msg: |2
+  pause:
+    prompt: |2
         Installation complete!
 
         Please not that 'certbot' was NOT installed (not required if you are using a reverse proxy for your web apps).

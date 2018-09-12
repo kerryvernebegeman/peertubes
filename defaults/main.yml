@@ -1,6 +1,7 @@
 ---
 # defaults file for peertube
-peer_version: v1.0.0-beta.9
+peer_version: 
+#v1.0.0-beta.9
 peer_version_url: https://api.github.com/repos/chocobozzz/peertube/releases/latest
 peer_version_dest: /tmp
 peer_src_url: https://github.com/Chocobozzz/PeerTube/releases/download/{{ peer_version }}/peertube-{{ peer_version }}.zip
