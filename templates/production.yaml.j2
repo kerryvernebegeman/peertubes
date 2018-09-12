@@ -2,7 +2,6 @@ listen:
   hostname: 'localhost'
   port: 9000
 
-# Correspond to your reverse proxy "listen" configuration
 webserver:
   https: '{{ config.webserver.https }}'
   hostname: '{{ config.webserver.hostname }}'
@@ -29,17 +28,7 @@ redis:
   auth: null
   db: 0
 
-"{{ config | to_yaml }}"
-# SMTP server to send emails
-smtp:
-  hostname: null
-  port: 465 # If you use StartTLS: 587
-  username: null
-  password: null
-  tls: true # If you use StartTLS: false
-  disable_starttls: false
-  ca_file: null # Used for self signed certificates
-  from_address: 'admin@example.com'
+{{ config | to_nice_yaml(indent=2) }}
 
 # From the project root directory
 storage:
