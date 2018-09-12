@@ -113,7 +113,8 @@
 - name: determine latest version
   tags: unzip
   shell: curl -s "{{ peer_version_url }}" | jq .tag_name 
-    warn: False
+  args:
+    warn: no
   register: last_version
   when: peer_version is not defined or peer_version is none
 
