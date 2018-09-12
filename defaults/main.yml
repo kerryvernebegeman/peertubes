@@ -19,8 +19,16 @@ special_directories:
     
 directory_version: "{{ app_user_home }}/versions/peertube-{{ peer_version }}"
 directory_latest: "{{ app_user_home }}/peertube-latest"
+directory_config: "{{ app_user_home }}/config"
 
 yarn_options: "--production --pure-lockfile"
+
+config_dest: "{{ directory_config }}/production.yaml"
+nginx_config_dest: "/etc/nginx/sites-available/peertube"
+nginx_config_dest_enable: "/etc/nginx/sites-enable/peertube"
+
+peertube_service_src: "{{ directory_latest }}/support/systemd/peertube.service"
+peertube_service_name: "peertube"
 
 app_pg_db: peertube_prod
 app_pg_user: peertube

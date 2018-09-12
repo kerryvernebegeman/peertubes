@@ -2,8 +2,8 @@
 
 - name: set up main config file
   template:
-    src: production.yaml.tpl
-    dest: /var/www/peertube/config/production.yaml
+    src: production.yaml.j2
+    dest: "{{ config_dest }}"
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
     mode: 0600
@@ -11,7 +11,7 @@
 - name: set up nginx config file (behind reverse proxy)
   template:
     src: nginx-behind-reverse.conf
-    dest:  /etc/nginx/sites-available/peertube
+    dest:  "{{ nginx_config_dest }}"
     owner: root
     group: root
     mode: 0644
@@ -19,14 +19,14 @@
 - name: create symbolic link to sites-enable for nginx config file
   file:
     state: link
-    src: /etc/nginx/sites-available/peertube
-    path: /etc/nginx/sites-enabled/peertube
+    src: "{{ nginx_config_dest }}"
+    path: "{{ nginx_config_dest_enable }}"
   notify: reload nginx
     
 - name: set up systemd service unit for peertube
   copy:
     remote_src: yes
-    src: /var/www/peertube/peertube-latest/support/systemd/peertube.service
+    src: "{{ peertube_service_src }}"
     dest: /etc/systemd/system/
     owner: root
     group: root
@@ -36,10 +36,10 @@
 - name: set up service unit peertube on startup
   systemd:
     enabled: yes
-    name: peertube
+    name: "{{ peertube_service_name }}"
 
-- debug:
-    msg: |2
+- pause:
+    prompt: |2
         Peertube is almost ready to run!
         Please REVIEW the main config file and complete it accordingly.
         
