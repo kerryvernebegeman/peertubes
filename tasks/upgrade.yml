@@ -1,2 +1,6 @@
 ---
 
+- name: Pause
+  pause:
+    prompt: Pause, Everything Ok ?
+
