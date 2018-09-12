@@ -151,6 +151,18 @@ config_start:
       add '/' to Disallow:
 ```
 
+### Tags
+
+#### List of tags:
+
+* install_nodejs : Installation of nodejs8 (default)
+* install_peertube : All set from nothing to peertube installed and stopped
+  * mypack : check package information
+  * pg : Create PostgreSQL user and empty database
+  * unzip : Check version (if var empty), download and extract peertube version
+  * install : Config dirs and execute peertube installation
+* config : Write configuration for peertube and nginx, set systemd service for peertube
+* info : Miscellaneous informations, while install and config
 
 ### Upgrade your peertube installation
 
