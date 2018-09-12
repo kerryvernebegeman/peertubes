@@ -117,6 +117,8 @@ config_default:
     suffix: '{{ app_pg_db_suffix }}'
     username: '{{ app_pg_user }}'
     password: '{{ app_pg_user_password }}'
+    pool:
+      max: 5
   
   redis:
     comment: Redis server for short time storage
