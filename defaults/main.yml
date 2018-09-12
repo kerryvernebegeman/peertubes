@@ -136,6 +136,7 @@ config_default:
     thumbnails: '{{ directory_storage }}/thumbnails/'
     torrents: '{{ directory_storage }}/torrents/'
     cache: '{{ directory_storage }}/cache/'
+    captions: '{{ directory_storage }}/captions/'
   
 config_dynamic:
 
