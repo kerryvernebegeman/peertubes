@@ -4,7 +4,7 @@
   copy:
     remote_src: yes
     src: "{{ config_default_src }}"
-    dest: "{{ config_dest }}"
+    dest: "{{ directory_config }}"
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
     mode: 0644
