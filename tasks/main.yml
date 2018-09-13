@@ -8,7 +8,7 @@
   pause:
     prompt: Full qualified domain name for you Peertube instance? (cannot be changed once Peertube is started, so choose carefully).
   register: entry
-  when: app_domain is none
+  when: app_domain is undefined or app_domain is none
 
 - name: set app_domain
   set_fact:
@@ -18,12 +18,14 @@
 - import_tasks: install-nodejs.yml
   tags: install_nodejs
 
+- import_tasks: former-install.yml
+  tags: former_install
+
+- import_tasks: postgresql.yml
+  tags: postgresql
+
 - import_tasks: install-peertube.yml
   tags: install_peertube
-
-  #- name: Pause
-  #  pause:
-  #    prompt: Pause, Everything Ok ?
 
 - import_tasks: config.yml
   tags: config
@@ -33,4 +35,8 @@
   tags: 
     - never
     - upgrade
+
+  #- name: Pause
+  #  pause:
+  #    prompt: Pause, Everything Ok ?
 

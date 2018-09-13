@@ -228,6 +228,7 @@ directory_storage: "{{ app_user_home }}/storage"
 
 yarn_options: "--production --pure-lockfile"
 
+config_default_src: "{{ directory_latest }}/config/default.yaml"
 config_dest: "{{ directory_config }}/production.yaml"
 nginx_config_dest: "/etc/nginx/sites-available/peertube"
 nginx_config_dest_enable: "/etc/nginx/sites-enabled/peertube"
@@ -240,6 +241,9 @@ app_pg_db_suffix: _prod
 app_pg_db: "{{ app_pg_db_prefix }}{{ app_pg_db_suffix }}"
 app_pg_user: peertube
 app_pg_user_password: "{{ lookup('password', '~/%s.credentials.txt chars=ascii_letters,digits' % 'pgsql_user' )}}"
+app_pg_ext: 
+  - pg_trgm
+  - unaccent
 
 yarn_gpg_url: "https://dl.yarnpkg.com/debian/pubkey.gpg"
 yarn_repo_line: "deb https://dl.yarnpkg.com/debian/ stable main" 
