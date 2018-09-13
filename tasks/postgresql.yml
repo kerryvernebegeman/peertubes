@@ -24,7 +24,6 @@
   postgresql_ext:
     db: "{{ app_pg_db }}"
     name: "{{ item }}"
-    password: "{{ app_pg_user_password }}"
     login_user: postgres
   with_items: "{{ app_pg_ext }}"
   tags: pg
