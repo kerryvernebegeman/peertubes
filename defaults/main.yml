@@ -89,7 +89,6 @@ config_start:
         enabled: false
 
   instance:
-    comment: Instance settings
     name: 'PeerTube'
     short_description: 'PeerTube, a federated (ActivityPub) video streaming platform using P2P (BitTorrent) directly in the web browser with WebTorrent and Angular.'
     description: ' # Support markdown'
