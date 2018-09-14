@@ -15,28 +15,28 @@
     app_domain: entry.user_input
   when: app_domain is none
 
-- import_tasks: install-nodejs.yml
+- import_tasks: 1_install-nodejs.yml
   tags: install_nodejs
 
-- import_tasks: former-install.yml
+- import_tasks: 2_former-install.yml
   tags: former_install
 
-- import_tasks: postgresql.yml
+- import_tasks: 3_postgresql.yml
   tags: postgresql
 
-- import_tasks: install-peertube.yml
+- import_tasks: 4_install-peertube.yml
   tags: install_peertube
 
-- import_tasks: config.yml
+- import_tasks: 5_config.yml
   tags: config
 
-- import_tasks: nginx.yml
+- import_tasks: 6_nginx.yml
   tags: nginx
 
-- import_tasks: start-peertube.yml
+- import_tasks: 7_start-peertube.yml
   tags: start_peertube
 
-- import_tasks: info.yml
+- import_tasks: 8_info.yml
   tags: info
 
 
