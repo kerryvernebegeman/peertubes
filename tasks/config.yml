@@ -17,45 +17,5 @@
     group: "{{ app_user }}"
     mode: 0600
 
-- name: set up nginx config file (behind reverse proxy)
-  template:
-    src: nginx-behind-reverse.conf
-    dest:  "{{ nginx_config_dest }}"
-    owner: root
-    group: root
-    mode: 0644
-
-- name: create symbolic link to sites-enable for nginx config file
-  file:
-    state: link
-    src: "{{ nginx_config_dest }}"
-    path: "{{ nginx_config_dest_enable }}"
-  notify: reload nginx
     
-- name: set up systemd service unit for peertube
-  copy:
-    remote_src: yes
-    src: "{{ peertube_service_src }}"
-    dest: /etc/systemd/system/
-    owner: root
-    group: root
-    mode: 0644
-  notify: reload systemd
 
-- name: set up service unit peertube on startup
-  systemd:
-    enabled: yes
-    name: "{{ peertube_service_name }}"
-
-- pause:
-    prompt: |2
-        Peertube is almost ready to run!
-        Please REVIEW the main config file and complete it accordingly.
-        
-        When ready, use the following command to start it and control journalctl output:
-        $ sudo systemctl start peertube
-        $ sudo journalctl -feu peertube
-
-        Once the testing period is over and all is well, consider lowering log level to warning.
-  tags: info
-  

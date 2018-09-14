@@ -1,0 +1,15 @@
+---
+
+- pause:
+    seconds: 10
+    prompt: |2
+        Peertube is almost ready to run!
+        Please REVIEW the main config file and complete it accordingly.
+        
+        When ready, use the following command to start it and control journalctl output:
+        $ sudo systemctl start peertube
+        $ sudo journalctl -feu peertube
+
+        Once the testing period is over and all is well, consider lowering log level to warning.
+  tags: info
+  

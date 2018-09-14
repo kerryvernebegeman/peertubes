@@ -1,0 +1,16 @@
+---
+
+- name: set up systemd service unit for peertube
+  copy:
+    remote_src: yes
+    src: "{{ peertube_service_src }}"
+    dest: /etc/systemd/system/
+    owner: root
+    group: root
+    mode: 0644
+  notify: reload systemd
+
+- name: set up service unit peertube on startup
+  systemd:
+    enabled: yes
+    name: "{{ peertube_service_name }}"
