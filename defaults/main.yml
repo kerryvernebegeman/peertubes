@@ -123,8 +123,8 @@ config_default:
 
   webserver:
     comment: Correspond to your reverse proxy "listen" configuration
-    https: {% if app_https %}True{% else %}False{% endif %}
-    port: {% if app_https %}443{% else %}80{% endif %}
+    https: "{% if app_https %}{{ True }}{% else %}{{ False }}{% endif %}"
+    port: "{% if app_https %}443{% else %}80{% endif %}"
     hostname: "{{ app_domain }}"
   
   trust_proxy:
