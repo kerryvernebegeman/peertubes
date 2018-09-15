@@ -21,8 +21,9 @@
     peer_version: '{{ last_version.stdout | regex_replace( "v(.*)","\1")  }}'
 
 - name: Same Version
-  debug:
-    msg: |
+  pause:
+    seconds: 1
+    prompt: |
       .
       .
       .
