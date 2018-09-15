@@ -20,6 +20,19 @@
   set_fact:
     peer_version: '{{ last_version.stdout | regex_replace( "v(.*)","\1")  }}'
 
+- name: Same Version
+  debug:
+    msg: |
+      .
+      .
+      .
+      . You're version - {{ peertube_package.version }}
+      . Last version   - {{ peer_version }}
+      .
+      . Nothing to do...
+      .
+  when: peertube_package.version == peer_version
+
 - name: Stop
   meta: end_play
   when: peertube_package.version == peer_version
