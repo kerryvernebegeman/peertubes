@@ -1,5 +1,48 @@
 ---
 
+- name: Fetch package.json file
+  fetch:
+    dest: remote
+    src: "{{directory_latest }}/package.json"
+
+- name: Get version
+  include_vars:
+    file: "remote/{{ inventory_hostname }}/{{directory_latest }}/package.json"
+    name: peertube_package
+
+- name: determine latest version
+  shell: curl -s "{{ peer_version_url }}" | jq -r .tag_name 
+  args:
+    warn: no
+  register: last_version
+  when: peer_version is not defined or peer_version is none
+  tags: unzip
+
+- name: set version variable
+  set_fact:
+    peer_version: '{{ last_version.stdout }}'
+  when: peer_version is not defined or peer_version is none
+  tags: unzip
+
+- name: Ask user for upgrade
+  pause:
+    register: user_choice
+    prompt: |
+      .
+      .
+      .
+      . You're version - {{ peertube_package.version }}
+      . Last version   - {{ peertube_version }}
+      .
+      . Do you want to continue to upgrade ? (y/n)
+      .
+  when: peertube_package.version != peertube_version
+
+- name: Stop
+  meta: end_play
+  when: user_choice in {"y","Y","o","O","Yes","yes"}
+
+
 - name: Pause
   pause:
     prompt: Pause, Everything Ok ?
