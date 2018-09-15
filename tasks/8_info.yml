@@ -10,41 +10,17 @@
     file: "remote/{{ inventory_hostname }}/{{directory_latest }}/package.json"
     name: peertube_package
 
-- pause:
-    seconds: 10
+- name: Final notice
+  pause:
+    seconds: 1
     prompt: |
       .
       .
       .
       .
-      .   Peertube {{ peertube_package.version }} is Up and ready to serve ! (￣^￣)ゞ
+      .   Backend Peertube {{ peertube_package.version }} is Up and ready to serve ! (￣^￣)ゞ
+      .   Upstream : 
+      .     - ipv4 : {{ ansible_default_ipv4.address }}:80
+      {% if  ansible_default_ipv6 is none %}.     - ipv6 - {{ ansible_default_ipv6 }}:80{% endif %}
       .
-      .   Now you can set your Reverse Proxy, and go to {{ app_domain }}
       .
-      .
-      .
-
-
-  #- name: Installation is finished, configuration is left to the user
-  #  pause:
-  #    prompt: |2
-  #        Installation complete!
-  #
-  #        Please not that 'certbot' was NOT installed (not required if you are using a reverse proxy for your web apps).
-  #
-  #        Next is to set up a minimum working configuration..."
-  #  tags: info,install
-
-  #- pause:
-  #    seconds: 10
-  #    prompt: |2
-  #        Peertube is almost ready to run!
-  #        Please REVIEW the main config file and complete it accordingly.
-  #        
-  #        When ready, use the following command to start it and control journalctl output:
-  #        $ sudo systemctl start peertube
-  #        $ sudo journalctl -feu peertube
-  #
-  #        Once the testing period is over and all is well, consider lowering log level to warning.
-  #  tags: info
-  #  
