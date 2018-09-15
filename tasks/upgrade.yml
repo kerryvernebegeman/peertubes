@@ -19,7 +19,7 @@
 
 - name: set last version variable
   set_fact:
-    peer_version: '{{ last_version.stdout | regex_replace( "v(.*)","\\1"  }}'
+    peer_version: '{{ last_version.stdout | regex_replace( "v(.*)","\\1")  }}'
   when: peer_version is not defined or peer_version is none
 
 - name: Ask user for upgrade
