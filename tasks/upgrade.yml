@@ -16,13 +16,11 @@
     warn: no
   register: last_version
   when: peer_version is not defined or peer_version is none
-  tags: unzip
 
-- name: set version variable
+- name: set last version variable
   set_fact:
-    peer_version: '{{ last_version.stdout }}'
+    peer_version: '{{ last_version.stdout | regex_replace( "v(.*)","\\1"  }}'
   when: peer_version is not defined or peer_version is none
-  tags: unzip
 
 - name: Ask user for upgrade
   pause:
