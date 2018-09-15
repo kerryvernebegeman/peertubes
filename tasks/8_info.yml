@@ -13,9 +13,16 @@
 - pause:
     seconds: 10
     prompt: |
-      Peertube {{ peertube_package.version }} is Up and ready to serve ! (￣^￣)ゞ
-
-      Now you can set your Reverse Proxy, and go to {{ app_domain }}
+      .
+      .
+      .
+      .
+      .   Peertube {{ peertube_package.version }} is Up and ready to serve ! (￣^￣)ゞ
+      .
+      .   Now you can set your Reverse Proxy, and go to {{ app_domain }}
+      .
+      .
+      .
 
 
   #- name: Installation is finished, configuration is left to the user
