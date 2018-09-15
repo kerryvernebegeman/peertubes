@@ -26,7 +26,6 @@
 
 - name: Ask user for upgrade
   pause:
-    register: user_choice
     prompt: |
       .
       .
@@ -36,11 +35,12 @@
       .
       . Do you want to continue to upgrade ? (y/n)
       .
+  register: user_choice
   when: peertube_package.version != peer_version
 
 - name: Stop
   meta: end_play
-  when: user_choice in {"y","Y","o","O","Yes","yes"}
+  when: user_choice.stdout in {"y","Y","o","O","Yes","yes"}
 
 
 - name: Pause
