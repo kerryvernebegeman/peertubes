@@ -3,7 +3,7 @@
 - name: Get version
   include_vars:
     file: "{{directory_latest }}/package.json"
-    var: peertube_package
+    name: peertube_package
 
 - pause:
     seconds: 10
