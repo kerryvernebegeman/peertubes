@@ -1,6 +1,6 @@
 # TODO
 
-* corriger bug True/'True' dans webserver.https
+* ~Corriger bug True/'True' dans webserver.https~
 
 * commandes d'upgrade
   * recupération version actuelle
