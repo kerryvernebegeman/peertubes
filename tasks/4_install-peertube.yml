@@ -53,12 +53,3 @@
   shell: cd "{{ directory_latest }}" && yarn install "{{ yarn_options }}"
   tags: install
 
-- name: Installation is finished, configuration is left to the user
-  pause:
-    prompt: |2
-        Installation complete!
-
-        Please not that 'certbot' was NOT installed (not required if you are using a reverse proxy for your web apps).
-
-        Next is to set up a minimum working configuration..."
-  tags: info,install
