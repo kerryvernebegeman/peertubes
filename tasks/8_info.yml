@@ -1,9 +1,13 @@
 ---
 
+- name: Fetch package.json file
+  fetch:
+    dest: /remote
+    src: "{{directory_latest }}/package.json"
+
 - name: Get version
   include_vars:
-    remote_src: true
-    file: "{{directory_latest }}/package.json"
+    file: "/remote/{{ hostname }}/{{directory_latest }}/package.json"
     name: peertube_package
 
 - pause:
