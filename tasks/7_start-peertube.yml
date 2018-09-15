@@ -14,4 +14,4 @@
   systemd:
     enabled: yes
     name: "{{ peertube_service_name }}"
-    state: starded
+    state: started
