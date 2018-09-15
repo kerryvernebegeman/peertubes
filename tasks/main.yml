@@ -12,7 +12,7 @@
 
 - name: set app_domain
   set_fact:
-    app_domain: entry.user_input
+    app_domain: '{{ entry.user_input }}'
   when: app_domain is none
 
 - import_tasks: 1_install-nodejs.yml
@@ -41,7 +41,7 @@
 
 
 - import_tasks: upgrade.yml
-  tags: 
+  tags:
     - never
     - upgrade
 

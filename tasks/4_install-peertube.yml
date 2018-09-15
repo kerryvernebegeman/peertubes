@@ -6,6 +6,7 @@
     warn: no
   register: last_version
   when: peer_version is not defined or peer_version is none
+  changed_when: False
   tags: unzip
 
 - name: set version variable

@@ -6,7 +6,7 @@
 ```yaml
 ---
 - name: peertube
-  src: https://framagit.org/jeromeavond/ansible-role-peertube.git
+  src: git+https://framagit.org/jeromeavond/ansible-role-peertube.git
 
 ```
 
@@ -30,6 +30,7 @@ example
 ---
 
 - hosts: peertube
+  become: yes
   roles:
     - peertube
 
