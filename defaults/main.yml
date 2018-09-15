@@ -251,3 +251,21 @@ yarn_repo_file: "/etc/apt/sources.list.d/yarn.list"
 
 nodejs_url: https://deb.nodesource.com/setup_8.x 
 nodejs_url_dest: /tmp
+
+basic_packages:
+  - curl
+  - sudo
+  - unzip
+  - vim
+remaining_packages:
+  - nginx
+  - ffmpeg
+  - postgresql
+  - postgresql-contrib
+  - openssl
+  - g++
+  - make
+  - redis-server
+  - git
+  - python-psycopg2
+  - jq

@@ -4,11 +4,7 @@
   apt:
     name: "{{ item }}"
     state: present
-  with_items:
-    - curl
-    - sudo
-    - unzip
-    - vim
+  with_items: "{{ basic_packages }}"
 
 - name: create dir for app user {{ app_user }}
   file: 
@@ -51,18 +47,7 @@
   apt:
     name: "{{ item }}"
     state: present
-  with_items:
-    - nginx
-    - ffmpeg
-    - postgresql
-    - postgresql-contrib
-    - openssl
-    - g++
-    - make
-    - redis-server
-    - git
-    - python-psycopg2
-    - jq
+  with_items: "{{ remaining_packages }}"
  
 - name: get the package facts
   package_facts:
