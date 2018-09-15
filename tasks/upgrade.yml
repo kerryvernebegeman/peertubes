@@ -32,11 +32,11 @@
       .
       .
       . You're version - {{ peertube_package.version }}
-      . Last version   - {{ peertube_version }}
+      . Last version   - {{ peer_version }}
       .
       . Do you want to continue to upgrade ? (y/n)
       .
-  when: peertube_package.version != peertube_version
+  when: peertube_package.version != peer_version
 
 - name: Stop
   meta: end_play
