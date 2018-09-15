@@ -15,12 +15,14 @@
   args:
     warn: no
   register: last_version
-  when: peer_version is not defined or peer_version is none
 
 - name: set last version variable
   set_fact:
     peer_version: '{{ last_version.stdout | regex_replace( "v(.*)","\1")  }}'
-  when: peer_version is not defined or peer_version is none
+
+- name: Stop
+  meta: end_play
+  when: peertube_package.version == peer_version
 
 - name: Ask user for upgrade
   pause:
@@ -35,10 +37,6 @@
       .
   register: user_choice
   when: peertube_package.version != peer_version
-
-- name: Stop
-  meta: end_play
-  when: user_choice is not defined and user_choice.stdout is not defined or user_choice.stdout in ["y","Y","o","O","Yes","yes"]
 
 
 - name: Pause
