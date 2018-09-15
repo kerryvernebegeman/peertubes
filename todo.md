@@ -15,3 +15,5 @@
     * remettre le backup de la base
     * relancer ansible avec tag: install\_peertube, config
   
+* check et stopper l'install si peertube est déjà présent
+  * éventuellement une variable pour forcer l'installation.
