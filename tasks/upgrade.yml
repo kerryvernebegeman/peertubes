@@ -52,6 +52,30 @@
   register: user_choice
   when: peertube_package.version != peer_version
 
+- name: Stop
+  meta: end_play
+  when: user_choice.stdout not in ["y","Y"]
+
+- name: Stop Peertube service
+  systemd:
+    name: "{{ peertube_service_name }}"
+    state: stopped
+
+- name: Backup database
+  become: true
+  become_user: postgres
+  postgresql_db:
+    name: "{{ app_pg_db }}"
+    state: dump
+    target: '{{ directory_storage }}/backup/pg_ansible_upgrade_{{ peertube_package.version }}_to_{{ peer_version }}'
+    login_user: postgres
+
+- name: Execute Upgrade
+  shell: upgrade.sh
+  args:
+    chdir: '{{ directory_latest }}/scripts'
+  register: upgrade_results
+
 
 - name: Pause
   pause:
