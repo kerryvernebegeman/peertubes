@@ -10,7 +10,8 @@
     mode: 0644
   notify: reload systemd
 
-- name: set up service unit peertube on startup
+- name: set up service unit peertube and start it up
   systemd:
     enabled: yes
     name: "{{ peertube_service_name }}"
+    state: starded
