@@ -54,7 +54,7 @@
 
 - name: Stop
   meta: end_play
-  when: user_choice.stdout not in ["y","Y"]
+  when: user_choice is defined and user_choice.stdout not in ["y","Y"]
 
 - name: Stop Peertube service
   systemd:

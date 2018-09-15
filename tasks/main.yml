@@ -39,7 +39,6 @@
 - import_tasks: 8_info.yml
   tags: info
 
-
 - import_tasks: upgrade.yml
   tags:
     - never

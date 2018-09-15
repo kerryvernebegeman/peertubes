@@ -156,14 +156,15 @@ config_start:
 
 #### List of tags:
 
-* install_nodejs : Installation of nodejs8 (default)
-* install_peertube : All set from nothing to peertube installed and stopped
-  * mypack : check package information
-  * pg : Create PostgreSQL user and empty database
-  * unzip : Check version (if var empty), download and extract peertube version
-  * install : Config dirs and execute peertube installation
-* config : Write configuration for peertube and nginx, set systemd service for peertube
-* info : Miscellaneous informations, while install and config
+* tags: install_nodejs           : Installation of nodejs8 (default)
+* tags: former_install           : Install package, create user, dirs etc.
+* tags: postgresql               : Create PostgreSQL user and empty database
+* tags: install_peertube         : download, unzip, link and execute peertube installation
+* tags: config                   : Write configuration for peertube 
+* tags: nginx                    : Write configuration for nginx 
+* tags: start_peertube           : set systemd service for peertube and start service
+* tags: info                     : Show last statements (misc.)
+* tags: upgrade                  : Never played until explicit tag, upgrade peertube to last version
 
 ### Upgrade your peertube installation
 
