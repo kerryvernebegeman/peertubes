@@ -10,6 +10,7 @@
 
 - name: execute shell code for nodeJS 8
   command: "bash {{ njsfile.dest }}"
+  changed_when: False
 
 - name: install nodeJS
   apt: 
