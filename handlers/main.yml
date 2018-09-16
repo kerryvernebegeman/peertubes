@@ -11,8 +11,10 @@
   service: name=nginx state=reloaded
   changed_when: True
 
-- name: reload peertube
+- name: "reload {{ peertube_service_name }}"
   become: yes
-  service: name=peertube state=reloaded
+  service: 
+    name: "{{ peertube_service_name }}" 
+    state: reloaded
   changed_when: True
 

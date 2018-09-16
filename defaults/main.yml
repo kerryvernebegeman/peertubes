@@ -1,17 +1,22 @@
 ---
 # defaults file for peertube
-peer_version: 
-#v1.0.0-beta.9
-peer_version_url: https://api.github.com/repos/chocobozzz/peertube/releases/latest
-peer_version_dest: /tmp
-peer_src_url: "https://github.com/Chocobozzz/PeerTube/releases/download/{{ peer_version }}/peertube-{{ peer_version }}.zip"
+app_domain:
+webserver_https: True
+webserver_port: 443
 
 accounts:
   twitter: "@twitteraccount"
   adminmail: "admin@example.com"
-app_domain:
-webserver_https: True
-webserver_port: 443
+
+peer_version: 
+#v1.0.0-beta.9
+#v1.0.0-beta.10
+#v1.0.0-beta.11
+#v1.0.0-beta.12
+#v1.0.0-beta.13
+peer_version_url: https://api.github.com/repos/chocobozzz/peertube/releases/latest
+peer_version_dest: /tmp
+peer_src_url: "https://github.com/Chocobozzz/PeerTube/releases/download/{{ peer_version }}/peertube-{{ peer_version }}.zip"
 
 app_user: peertube
 app_user_password: "{{lookup('password', 'zz.%s.credentials.txt chars=ascii_letters,digits' % '{{ app_user }}' )}}"
@@ -212,6 +217,8 @@ dirs:
     path: "{{ app_user_home }}/versions/peertube-{{ peer_version }}"
   - name: storage
     path: "{{ app_user_home }}/storage"
+  - name: backup
+    path: "{{ app_user_home }}/backup"
 latest:
   - name: latest
     path: "{{ app_user_home }}/peertube-latest"
@@ -231,6 +238,7 @@ yarn_options: "--production --pure-lockfile"
 
 config_default_src: "{{ directory_latest }}/config/default.yaml"
 config_dest: "{{ directory_config }}/production.yaml"
+
 nginx_config_dest: "/etc/nginx/sites-available/peertube"
 nginx_config_dest_enable: "/etc/nginx/sites-enabled/peertube"
 
