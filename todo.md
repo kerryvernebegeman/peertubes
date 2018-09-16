@@ -2,6 +2,7 @@
 
 * ~~Corriger bug True/'True' dans webserver.https~~
 * ~~mettre install logiciel complementaire en variable list~~
+* ~~Récupérer Username + User password et les afficher à l'écran~~
 * ~~Lancer peertube à la fin~~
 
 * commandes d'upgrade
