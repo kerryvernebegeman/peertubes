@@ -9,6 +9,7 @@
   include_vars:
     file: "remote/{{ inventory_hostname }}/{{directory_latest }}/package.json"
     name: peertube_package
+  notify: reload peertube
 
 - name: Get Log username
   shell: journalctl -u peertube | grep 'Username' | sed 's/.* info. \(.*\)/\1/'
