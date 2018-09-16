@@ -41,6 +41,7 @@ myTremend00sVAULTpassw9rd
 EOF
 $ cat > .gitignore <<EOF
 vault_pass
+EOF
 $ mkdir host_vars/peertube.mydomain.io
 $ cat > host_vars/peertube.mydomain.io/vars.yml <<EOF
 ---
