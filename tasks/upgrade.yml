@@ -32,11 +32,11 @@
       .
       . Nothing to do...
       .
-  when: peertube_package.version == peer_version
+  when: peertube_package is defined and peertube_package.version == peer_version
 
 - name: Stop
   meta: end_play
-  when: peertube_package.version == peer_version
+  when: peertube_package is defined and peertube_package.version == peer_version
 
 - name: Ask user for upgrade
   pause:
@@ -44,17 +44,21 @@
       .
       .
       .
-      . You're version - {{ peertube_package.version }}
-      . Last version   - {{ peer_version }}
+      . Your version : {{ peertube_package.version }}
+      . Last version : {{ peer_version }}
       .
-      . Do you want to continue to upgrade ? (y/n)
+      . Warning : This upgrade method is still under active developpement
+      . ! Absolut no warranty is given !
+      .
+      .
+      . Do you still want to continue upgrade ? (y/n)
       .
   register: user_choice
-  when: peertube_package.version != peer_version
+  when: peertube_package is defined and peertube_package.version != peer_version
 
 - name: Stop
   meta: end_play
-  when: user_choice is defined and user_choice.stdout not in ["y","Y"]
+  when: user_choice is defined and user_choice.user_input not in ["y","Y"]
 
 - name: Stop Peertube service
   systemd:
@@ -67,14 +71,24 @@
   postgresql_db:
     name: "{{ app_pg_db }}"
     state: dump
-    target: '{{ directory_storage }}/backup/pg_ansible_upgrade_{{ peertube_package.version }}_to_{{ peer_version }}'
+    target: '/tmp/backup_pg_ansible_upgrade_{{ peertube_package.version }}_to_{{ peer_version }}.sql'
     login_user: postgres
 
+- debug:
+    msg:  '{{ directory_latest }}/scripts'
+
 - name: Execute Upgrade
-  shell: upgrade.sh
-  args:
-    chdir: '{{ directory_latest }}/scripts'
+  become: true
+  become_user: peertube
+  expect:
+    command: ./scripts/upgrade.sh
+    timeout: 600
+    chdir: '{{ directory_latest }}'
+    responses:
+      (?i)password: "{{ app_pg_user_password }}"
   register: upgrade_results
+  changed_when: False
+  ignore_errors: yes
 
 
 - name: Pause
