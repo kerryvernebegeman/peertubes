@@ -219,6 +219,7 @@ special_directories:
   - config
   - storage
   - versions
+  - backup
     
 directory_version: "{{ app_user_home }}/versions/peertube-{{ peer_version }}"
 directory_latest: "{{ app_user_home }}/peertube-latest"
@@ -257,6 +258,7 @@ basic_packages:
   - sudo
   - unzip
   - vim
+  - htop
 remaining_packages:
   - nginx
   - ffmpeg
@@ -267,5 +269,6 @@ remaining_packages:
   - make
   - redis-server
   - git
-  - python-psycopg2
   - jq
+  - python-psycopg2
+  - python-pexpect
