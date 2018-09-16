@@ -90,8 +90,34 @@
   changed_when: False
   ignore_errors: yes
 
+- name: Stop Peertube service
+  systemd:
+    name: "{{ peertube_service_name }}"
+    state: started
 
-- name: Pause
+- import_tasks: 8_info.yml
+  tags: info
+
+- name: Final upgrade Notice
   pause:
-    prompt: Pause, Everything Ok ?
+    seconds: 30
+    prompt: |
+      .   
+      .
+      .
+      .   Ok now everything is set,
+      .
+      .   Apparently, Upgrade went smoothly
+      .
+      .   Relax yourself, take a bier
+      .
+      .   Choose among your best videos, and 
+      . 
+      .   UPLOAD THEM ALL !!!!!
+      .
+      .
 
+#- name: Pause
+#  pause:
+#    prompt: Pause, Everything Ok ?
+#
