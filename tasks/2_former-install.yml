@@ -48,6 +48,7 @@
     name: "{{ item }}"
     state: present
   with_items: "{{ remaining_packages }}"
+  tags: remaining_packages
  
 - name: get the package facts
   package_facts:
@@ -74,4 +75,5 @@
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
   with_items: "{{ special_directories }}"
+  tags: spedirs
 
