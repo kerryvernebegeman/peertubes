@@ -2,7 +2,18 @@ galaxy_info:
   author:
     - popindavibe
     - djayroma
-  description: Peertube installation
+  description: |
+    .
+    .   Peertube installation and upgrade role
+    .   
+    .   This role is working from Peertube version :
+    .     - v1.0.0-beta9 at least 
+    .     - to v1.0.0-beta13 at most (last tested version)
+    .
+    .   Configuration is easy to complete via config* variables
+    .   It may works for later versions
+    .
+
   company: 
     - nomagic.uk
     - alolise.org
