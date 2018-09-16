@@ -10,6 +10,7 @@
   * ~~arrêt peertube~~
   * ~~backup db~~
   * ~~upgrade~~
+  * ~~démarrage peertube~~
   * test
   * si fail : 
     * mettre anc version dans peer\_version, 
