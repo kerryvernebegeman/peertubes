@@ -15,3 +15,22 @@
     enabled: yes
     name: "{{ peertube_service_name }}"
     state: started
+
+- name: Wait Peertube starting
+  pause:
+    seconds: 30
+    prompt: |
+      .   
+      .
+      .
+      .   Wait a minute
+      .
+      .   Peertube is starting
+      .
+      .   Relax yourself, inspire, take a moment to think about your life
+      .   Release the tense, breath, imagine a butterfly,
+      .
+      .   Have a kit-kat...
+      .
+      .
+
