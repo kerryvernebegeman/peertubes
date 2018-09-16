@@ -1,5 +1,7 @@
 # ansible-role-peertube
 
+tl;dr => Go straight to the [HOWTO](HOWTO.md)
+
 ## Basics
 
 ### requirements.yml
