@@ -11,3 +11,8 @@
   service: name=nginx state=reloaded
   changed_when: True
 
+- name: reload peertube
+  become: yes
+  service: name=peertube state=reloaded
+  changed_when: True
+
