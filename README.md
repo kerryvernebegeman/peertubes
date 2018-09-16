@@ -1,6 +1,7 @@
 # ansible-role-peertube
 
 ## Basics
+
 ### requirements.yml
 
 ```yaml
@@ -21,7 +22,8 @@ $ ansible-galaxy -r requirements.yml install peertube
 ```dosini
 
 [peertube]
-example
+vm.example.net	# You are able to ssh and become root in this 
+
 ```
 
 ### Playbook peertube.yml
@@ -44,6 +46,16 @@ $ ansible-playbook peertube.yml
 
 ```
 
+### Upgrade
+
+WARNING : Still In Dev ! Use at your own risk, there's a backup of your database in /tmp 
+
+```bash
+
+$ ansible-playbook peertube.yml -t upgrade
+
+```
+
 ## In details
 
 ### Variables
@@ -57,6 +69,13 @@ See in file [defaults](defaults/main.yml)
 # config that can't be changed on load in the web interface
 
 app_domain:
+
+# If backend behind a HTTPS proxy (default)
+webserver_https: True
+webserver_port: 443
+# If backend behind a HTTP proxy
+webserver_https: False
+webserver_port: 80
 
 config:
   smtp:
@@ -165,13 +184,4 @@ config_start:
 * tags: start_peertube           : set systemd service for peertube and start service
 * tags: info                     : Show last statements (misc.)
 * tags: upgrade                  : Never played until explicit tag, upgrade peertube to last version
-
-### Upgrade your peertube installation
-
-```bash
-
-$ ansible-playbook peertube.yml -t upgrade
-
-```
-
 
