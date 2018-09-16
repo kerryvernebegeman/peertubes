@@ -10,7 +10,8 @@ accounts:
   twitter: "@twitteraccount"
   adminmail: "admin@example.com"
 app_domain:
-app_https: true
+webserver_https: True
+webserver_port: 443
 
 app_user: peertube
 app_user_password: "{{lookup('password', 'zz.%s.credentials.txt chars=ascii_letters,digits' % '{{ app_user }}' )}}"
@@ -123,8 +124,8 @@ config_default:
 
   webserver:
     comment: Correspond to your reverse proxy "listen" configuration
-    https: "{% if app_https %}{{ True }}{% else %}{{ False }}{% endif %}"
-    port: "{% if app_https %}443{% else %}80{% endif %}"
+    https: "{{ webserver_https }}"
+    port: "{{ webserver_port }}"
     hostname: "{{ app_domain }}"
   
   trust_proxy:
