@@ -21,7 +21,7 @@ EOF
 $ cat > requirements.yml <<EOF
 ---
 - name: peertube
-  src: git+https://framagit.org/jeromeavond/ansible-role-peertube
+  src: git+https://framagit.org/ansibleislife/ansible-role-peertube
 EOF
 $ ansible-galaxy install -r requirements
 $ cat > play/peertube.yml <<EOF
