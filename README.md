@@ -9,7 +9,7 @@ tl;dr => Go straight to the [HOWTO](HOWTO.md)
 ```yaml
 ---
 - name: peertube
-  src: git+https://framagit.org/jeromeavond/ansible-role-peertube.git
+  src: git+https://framagit.org/ansibleislife/ansible-role-peertube.git
 
 ```
 
