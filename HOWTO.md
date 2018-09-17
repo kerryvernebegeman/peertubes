@@ -9,7 +9,7 @@ $ cd mypeertube
 $ mkdir {play,roles,host_vars}
 $ cat > inventory.ini <<EOF
 [peertube]
-peertube.mydomain.io  ansible_user=root ansible_pass=mYpAssw00rd
+peertube.mydomain.io ansible_hostname=192.168.1.24 ansible_user=root ansible_pass=mYpAssw00rd
 EOF
 $ cat > ansible.cfg <<EOF
 [defaults]
