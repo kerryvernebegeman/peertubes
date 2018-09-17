@@ -91,7 +91,7 @@ adminmail: 'my_admin_mail@mydomain.io'
 $ ansible-playbook play/peertube.yml
 ```
 
-Now get some bier and snack, maybe the last episode of Bowjack Horseman (or Archer) and stay hydrated
+Now get some bier and snack, maybe the last episode of Bojack Horseman (or Archer) and stay hydrated
 
 On a 2 cpu with 2 Go RAM it takes at most 20 min, and the disk space of peertube itself is below 2 Go
 
