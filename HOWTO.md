@@ -1,13 +1,12 @@
-# From ansible installation to peertube working
-
-## Debian
-
-```shell
-$ sudo apt install ansible
-$ mkdir mypeertube
-$ cd mypeertube
-$ mkdir {play,roles,host_vars}
-$ cat > inventory.ini <<EOF
+sudo apt install ansible
+sleep 69
+mkdir mypeertube
+sleep 69
+cd mypeertube
+sleep 69
+mkdir {play,roles,host_vars}
+sleep 69
+cat > inventory.ini <<EOF
 [peertube]
 peertube.mydomain.io ansible_host=192.168.1.24 ansible_user=root ansible_pass=mYpAssw00rd
 EOF
